@@ -18,4 +18,10 @@ KeyboardConverter
 # project files
 *.geany
 
+.ccls-cache/
+GPATH
+GRTAGS
+GTAGS
+tags
 
+*.bak

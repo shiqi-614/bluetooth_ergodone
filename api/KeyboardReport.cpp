@@ -23,7 +23,7 @@
 
 #include "KeyboardReport.h"
 
-KeyboardReport::KeyboardReport(report_keyboard_t *report)
+KeyboardReport::KeyboardReport(report_keyboard_t* report)
 {
     _report = report;
 }
@@ -36,7 +36,7 @@ uint8_t KeyboardReport::getModifiers()
 uint8_t KeyboardReport::getReserved()
 {
     return _report->reserved;
-}    
+}
 
 uint8_t KeyboardReport::getKey(uint8_t keyIndex)
 {
@@ -45,5 +45,5 @@ uint8_t KeyboardReport::getKey(uint8_t keyIndex)
 
 uint8_t KeyboardReport::getReportKeys()
 {
-    return REPORT_KEYS;
+    return KEYBOARD_REPORT_KEYS;
 }
