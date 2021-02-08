@@ -7,7 +7,8 @@ bluetooth ergodone
 
 使用了[Arduino IDE](https://www.arduino.cc/en/software), 基于[arduino_tmk_keyboard](https://github.com/bgould/arduino_tmk_keyboard).
 
-代码使用方法是: 从Release里下载[bluetooth_ergodone.zip](https://github.com/shiqi-614/bluetooth_ergodone/releases/download/1.0/bluetooth_ergodone.zip), 在Arduino IDE里, 通过"项目" -> "加载库" -> "添加.zip库", 把本项目导入.
+### 使用方法
+从Release里下载[bluetooth_ergodone.zip](https://github.com/shiqi-614/bluetooth_ergodone/releases/download/1.0/bluetooth_ergodone.zip), 在Arduino IDE里, 通过"项目" -> "加载库" -> "添加.zip库", 把本项目导入.
 
 导入完成后, 还需要
 1. **选择正确的示例程序**: 在Arduino IDE里, 通过"文件" -> "示例", 找到本项目名, 然后打开左手或者右手的示例程序,
@@ -25,8 +26,17 @@ bluetooth ergodone
 ### 二次开发
 将代码及依赖库TMK下载下来.
 <pre><code>git clone --recursive https://github.com/shiqi-614/bluetooth_ergodone.git</code></pre>
+
+有时候网络不行, 而且TMK工程又比较大, 可以分别单独下载
+<pre><code>git clone https://github.com/shiqi-614/bluetooth_ergodone.git 
+cd bluetooth_ergodone/tmk 
+git clone https://github.com/shiqi-614/tmk_keyboard.git </code></pre>
+
+因为担心到时候TMK有不兼容的改动, 所以fork了一份, 我创建的时候, 升级到了最新的版本, 如果你有兴趣, 可以试试当时最新的TMK.
+
 放到Arduino IDE的library文件夹中, 如在Mac系统里, 是
 <pre><code>~/Documents/Arduino/libraries/</pre></code>
+现在就可以开始改代码了.
 
 ### Reference: 
 * [Arduino IDE](https://www.arduino.cc/en/software/)
