@@ -22,45 +22,55 @@
  */
 #include "gluecode.h"
 
-void exec_action(uint8_t r, uint8_t c, matrix_row_t matrix_row) {
-    action_exec((keyevent_t){
-        .key = (key_t){ .row = r, .col = c },
-        .pressed = (matrix_row & ((matrix_row_t)1<<c)),
+void exec_action(uint8_t r, uint8_t c, matrix_row_t matrix_row)
+{
+    action_exec((keyevent_t) {
+        .key = (keypos_t) { .row = r, .col = c },
+        .pressed = (matrix_row & ((matrix_row_t)1 << c)),
         .time = (millis() | 1) /* time should not be 0 */
     });
 }
 
 volatile unsigned long timer_count = 0;
 
-void timer_init() {
-	timer_count = millis();
+void timer_init()
+{
+    timer_count = millis();
 }
 
-void timer_clear(void) {
-	timer_count = millis();
+void timer_clear(void)
+{
+    timer_count = millis();
 }
 
-uint16_t timer_read(void) {
-	unsigned long t = millis() - timer_count;
+uint16_t timer_read(void)
+{
+    unsigned long t = millis() - timer_count;
     return (t & 0xFFFF);
 }
 
-uint32_t timer_read32(void) {
-	return millis() - timer_count;
+uint32_t timer_read32(void)
+{
+    return millis() - timer_count;
 }
 
-uint16_t timer_elapsed(uint16_t last) {
-	uint32_t t;
+uint16_t timer_elapsed(uint16_t last)
+{
+    uint32_t t;
     t = millis() - timer_count;
     return TIMER_DIFF_16((t & 0xFFFF), last);
 }
 
-uint32_t timer_elapsed32(uint32_t last) {
-	uint32_t t;
+uint32_t timer_elapsed32(uint32_t last)
+{
+    uint32_t t;
     t = millis() - timer_count;
     return TIMER_DIFF_32(t, last);
 }
 
-void print_set_sendchar(int8_t (*print_sendchar_func)(uint8_t)) {
-	xdev_out(print_sendchar_func);
+void print_set_sendchar(int8_t (*print_sendchar_func)(uint8_t))
+{
+    xdev_out(print_sendchar_func);
 }
+
+void bootloader_jump(void) { }

@@ -1,8 +1,13 @@
 #include "KeyboardFirmware.cpp"
-#include "KeyboardHost.cpp"
 #include "KeyboardKey.cpp"
 #include "KeyboardReport.cpp"
 #include "MouseReport.cpp"
-#include "BluefruitHost.cpp"
-#include "PS2Matrix.cpp"
-#include "PS2MatrixCodeset3.cpp"
+#ifdef RIGHT_HAND
+#include "BluetoothHost.cpp"
+#include "Joystick.cpp"
+#include "Mcp23017PlusBluetoothBleMatrix.cpp"
+#endif
+
+#ifdef LEFT_HAND
+#include "ArduinoProMicroMatrix.cpp"
+#endif

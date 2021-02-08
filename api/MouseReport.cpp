@@ -1,31 +1,31 @@
-#include "MouseReport.h"
+#include "../MouseReport.h"
 
-MouseReport::MouseReport(report_mouse_t *report)
+MouseReport::MouseReport(report_mouse_t* report)
 {
-    _report = report;
+    this->_report = report;
 }
 
-byte MouseReport::getButtons()
+int8_t MouseReport::getButtons()
 {
-    return _report->buttons;
+    return this->_report->buttons;
 }
 
-byte MouseReport::getX()
+int8_t MouseReport::getX()
 {
-    return _report->x;
+    return this->_report->x;
 }
 
-byte MouseReport::getY()
+int8_t MouseReport::getY()
 {
-    return _report->y;
+    return this->_report->y;
 }
 
-byte MouseReport::getV()
+int8_t MouseReport::getV()
 {
-    return _report->v;
+    return this->_report->v;
 }
 
-byte MouseReport::getH()
+int8_t MouseReport::getH()
 {
-    return _report->h;
+    return this->_report->h;
 }
