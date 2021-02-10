@@ -62,8 +62,8 @@ extern "C" {
 static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     ERGODONE_KEYMAP(
-        GRV, 1, 2, 3, 4, 5, FN15,
-        TAB, Q, W, E, R, T, MINS,
+        GRV, 1, 2, 3, 4, 5, FN16,
+        TAB, Q, W, E, R, T, LBRC,
         FN4, A, S, D, F, G,
         LSFT, FN3, Z, X, C, V, EQL,
         LCTL, LALT, LEFT, RGHT, LGUI,
@@ -71,8 +71,8 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                               FN1,
                                     SPC, ESC, FN2,
 
-            6, 7, 8, 9, 0, BSLS, RBRC,
-            BSLS, Y, U, I, O, P, LBRC,
+            6, 7, 8, 9, 0, MINS, EQL,
+            RBRC, Y, U, I, O, P, BSLS,
             H, J, K, L, SCLN, QUOT,
             B, N, M, COMM, DOT, SLSH, RSFT,
             NO, DOWN, UP, CAPS, RCTL,
@@ -99,17 +99,17 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         TRNS, TRNS, TRNS),
 
     ERGODONE_KEYMAP(
-        TRNS, F1, F2, F3, F4, F5, F6,
-        TAB, FN7, FN8, FN12, FN12, NO, TRNS,
-        TRNS, FN8, ACL2, ACL1, ACL0, NO,
-        LSFT, NO, NO, C, V, NO, FN6,
+        TRNS,  F1,  F2,  F3,  F4,  F5,  F6,
+        TAB,  FN7, FN8,FN12,FN12,  NO,TRNS,
+        TRNS,ACL2,ACL1,ACL0, FN8,  NO,
+        LSFT,NO,  NO,  NO,   FN7,  NO, FN6,
         LCTL, LALT, MPLY, MPRV, LGUI,
                                          TRNS,FN0,
                                               FN1,
                                     FN5, FN4, FN2,
 
-            F6, F7, F8, F9, F10, F11, FN14,
-            VOLU, BTN1, BTN2, TRNS, TRNS, TRNS, FN13,
+            F6, F7, F8, FN13, FN14, FN15, F12,
+            VOLU, BTN1, BTN2, TRNS, TRNS, TRNS, RBRC,
             MS_L, MS_D, MS_U, MS_R, TRNS, TRNS,
             VOLD, WH_R, WH_U, WH_D, WH_L, TRNS, TRNS,
             TRNS, TRNS, TRNS, TRNS, TRNS,
@@ -140,11 +140,13 @@ const macro_t* action_get_macro(keyrecord_t* record, uint8_t id, uint8_t opt)
         return (record->event.pressed ? MACRO(D(LALT), D(LGUI), T(RGHT), U(LALT), U(LGUI), END) : MACRO_NONE);
     case 7: // vimac scroll
         return (record->event.pressed ? MACRO(D(LALT), D(LGUI), T(E), U(LALT), U(LGUI), END) : MACRO_NONE);
-    case 8: // shift + [
-        return (record->event.pressed ? MACRO(D(LSHIFT), D(LBRC), T(LBRC), U(LSHIFT), END) : MACRO_NONE);
-    case 9: // shift + ]
-        return (record->event.pressed ? MACRO(D(LSHIFT), D(RBRC), T(RBRC), U(LSHIFT), END) : MACRO_NONE);
-    case 10: // shift + ]
+    case 8: // (
+        return (record->event.pressed ? MACRO(D(LSHIFT), D(9), T(9), U(LSHIFT), END) : MACRO_NONE);
+    case 9: // )
+        return (record->event.pressed ? MACRO(D(LSHIFT), D(0), T(0), U(LSHIFT), END) : MACRO_NONE);
+    case 10: // _
+        return (record->event.pressed ? MACRO(D(LSHIFT), D(MINS), T(MINS), U(LSHIFT), END) : MACRO_NONE);
+    case 11: // alt + space to trigger accessMenuBarApps and Hidden Bar 
         return (record->event.pressed ? MACRO(D(LALT), D(SPC), T(SPC), U(LALT), END) : MACRO_NONE);
     }
     return MACRO_NONE;
@@ -167,6 +169,7 @@ static const action_t PROGMEM fn_actions[] = {
     [13] = ACTION_MACRO((uint16_t)8),
     [14] = ACTION_MACRO((uint16_t)9),
     [15] = ACTION_MACRO((uint16_t)10),
+    [16] = ACTION_MACRO((uint16_t)11),
 };
 
 uint8_t keymap_key_to_keycode(uint8_t layer, keypos_t key)

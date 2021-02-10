@@ -110,7 +110,7 @@ uint8_t Mcp23017PlusBluetoothBleMatrix::scan()
     //    dprintf("serial ava %d\n", Serial1.available());
     if (Serial1.available()) {
         byte data = Serial1.read();
-        dprintf("receive left ble data %04X\n", data);
+        //        dprintf("receive left ble data %04X\n", data);
         if (data == 0xFD) {
             leftBleBegin = true;
             leftBlebuffIndex = 0;
