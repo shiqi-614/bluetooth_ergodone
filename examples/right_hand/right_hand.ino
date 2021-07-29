@@ -6,7 +6,8 @@ BluetoothHost host;
 Mcp23017PlusBluetoothBleMatrix matrix;
 KeyboardFirmware_ KeyboardFirmware;
 
-static bool CAPS_LED = false;
+bool CAPS_LED = false;
+bool BTN1 = false;
 
 void setup()
 {
@@ -43,15 +44,15 @@ void action_function(keyrecord_t* record, uint8_t id, uint8_t opt)
     dprintf("%u", opt);
     dprintln();
 
-    // Position to add your custom functions. 
-    // Such as you can write function to connect different devices 
+    // Position to add your custom functions.
+    // Such as you can write function to connect different devices
     // when press some specific buttons,
     // if you can custom program in bluetooth HID chip.
     // Foe example, adding following line in fn_actions.
     //   [0] =  ACTION_FUNCTION(such as id of first device),
     //   [1] =  ACTION_FUNCTION(such as id of second device),
     //   ...
-    // then press FN0 to eonnect your computer, 
+    // then press FN0 to eonnect your computer,
     // press FN1 to connect your ipad
     // ...
     dprintf("== end of action function\n");
@@ -67,15 +68,15 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         FN4, A, S, D, F, G,
         LSFT, FN3, Z, X, C, V, EQL,
         LCTL, LALT, LEFT, RGHT, LGUI,
-                                         F12, FN0,
-                                              FN1,
-                                    SPC, ESC, FN2,
+        F12, FN0,
+        FN1,
+        SPC, ESC, FN2,
 
-            6, 7, 8, 9, 0, MINS, EQL,
-            RBRC, Y, U, I, O, P, BSLS,
-            H, J, K, L, SCLN, QUOT,
-            B, N, M, COMM, DOT, SLSH, RSFT,
-            NO, DOWN, UP, CAPS, RCTL,
+        6, 7, 8, 9, 0, MINS, EQL,
+        RBRC, Y, U, I, O, P, BSLS,
+        H, J, K, L, SCLN, QUOT,
+        B, N, M, COMM, DOT, SLSH, RSFT,
+        NO, DOWN, UP, CAPS, RCTL,
         MUTE, MPLY,
         VOLU,
         VOLD, BSPC, ENT),
@@ -85,34 +86,34 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         TRNS, TRNS, TRNS, FN10, FN9, FN11,
         LSFT, FN3, LSFT, TRNS, TRNS, TRNS, FN6,
         TRNS, TRNS, LALT, TRNS, TRNS,
-                                         TRNS,FN0,
-                                              FN1,
-                                    SPC, FN4, FN2,
+        TRNS, FN0,
+        FN1,
+        SPC, FN4, FN2,
 
-            F6, F7, F8, F9, F10, F11, F12,
-            TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, RBRC,
-            LEFT, DOWN, UP, RGHT, TRNS, TRNS,
-            TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS,
-            TRNS, TRNS, TRNS, TRNS, TRNS,
+        F6, F7, F8, F9, F10, F11, F12,
+        TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, RBRC,
+        LEFT, DOWN, UP, RGHT, TRNS, TRNS,
+        TRNS, TRNS, TRNS, TRNS, TRNS, TRNS, TRNS,
+        TRNS, TRNS, TRNS, TRNS, TRNS,
         TRNS, TRNS,
         TRNS,
         TRNS, TRNS, TRNS),
 
     ERGODONE_KEYMAP(
-        TRNS,  F1,  F2,  F3,  F4,  F5,  F6,
-        TAB,  FN7, FN8,FN12,FN12,  NO,TRNS,
-        TRNS,ACL2,ACL1,ACL0, FN8,  NO,
-        LSFT,NO,  NO,  NO,   FN7,  NO, FN6,
-        LCTL, LALT, MPLY, MPRV, LGUI,
-                                         TRNS,FN0,
-                                              FN1,
-                                    FN5, FN4, FN2,
+        TRNS, F1, F2, F3, F4, F5, F6,
+        TAB, FN7, FN8, FN12, FN12, NO, TRNS,
+        TRNS, ACL2, ACL1, ACL0, FN8, NO,
+        LSFT, NO, NO, NO, FN7, NO, FN6,
+        LCTL, LALT, MPLY, MPRV, BTN1,
+        TRNS, FN0,
+        FN1,
+        FN5, FN4, FN2,
 
-            F6, F7, F8, FN13, FN14, FN15, F12,
-            VOLU, BTN1, BTN2, TRNS, TRNS, TRNS, RBRC,
-            MS_L, MS_D, MS_U, MS_R, TRNS, TRNS,
-            VOLD, WH_R, WH_U, WH_D, WH_L, TRNS, TRNS,
-            TRNS, TRNS, TRNS, TRNS, TRNS,
+        F6, F7, F8, FN13, FN14, FN15, F12,
+        VOLU, BTN1, BTN2, TRNS, TRNS, TRNS, RBRC,
+        LEFT, DOWN, UP, RGHT, TRNS, TRNS,
+        VOLD, WH_R, WH_U, WH_D, WH_L, TRNS, TRNS,
+        TRNS, TRNS, TRNS, TRNS, TRNS,
         TRNS, TRNS,
         TRNS,
         TRNS, BTN2, BTN1),
@@ -146,7 +147,7 @@ const macro_t* action_get_macro(keyrecord_t* record, uint8_t id, uint8_t opt)
         return (record->event.pressed ? MACRO(D(LSHIFT), D(0), T(0), U(LSHIFT), END) : MACRO_NONE);
     case 10: // _
         return (record->event.pressed ? MACRO(D(LSHIFT), D(MINS), T(MINS), U(LSHIFT), END) : MACRO_NONE);
-    case 11: // alt + space to trigger accessMenuBarApps and Hidden Bar 
+    case 11: // alt + space to trigger accessMenuBarApps and Hidden Bar
         return (record->event.pressed ? MACRO(D(LALT), D(SPC), T(SPC), U(LALT), END) : MACRO_NONE);
     }
     return MACRO_NONE;
@@ -201,6 +202,15 @@ void hook_matrix_change(keyevent_t event)
             }
             break;
         }
+        break;
+    }
+    case KC_MS_BTN1: {
+        if (event.pressed) {
+            BTN1 = true;
+        } else {
+            BTN1 = false;
+        }
+        break;
     }
     }
 }
@@ -212,13 +222,13 @@ void hook_layer_change(uint32_t layer_state)
     digitalWrite(LEDB_PIN, LOW);
     digitalWrite(LEDC_PIN, LOW);
 
-    if (layer_state & (1<<1)) {
+    if (layer_state & (1 << 1)) {
         digitalWrite(LEDC_PIN, HIGH);
     }
-    if (layer_state & (1<<2)) {
+    if (layer_state & (1 << 2)) {
         digitalWrite(LEDB_PIN, HIGH);
     }
-    if (layer_state & (1<<3)) {
+    if (layer_state & (1 << 3)) {
         digitalWrite(LEDB_PIN, HIGH);
         digitalWrite(LEDC_PIN, HIGH);
     }

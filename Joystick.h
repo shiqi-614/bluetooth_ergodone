@@ -8,7 +8,7 @@ class Joystick {
 public:
     Joystick();
     void begin(KeyboardHost& host);
-    void handleJoystick();
+    report_mouse_t handleJoystick();
 
 private:
     KeyboardHost* _host;

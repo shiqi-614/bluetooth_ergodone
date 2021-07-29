@@ -87,7 +87,8 @@ void KeyboardFirmware_::runTask()
 #endif
 
 #ifdef JOYSTICK_ENABLE
-    joystick.handleJoystick();
+    report_mouse_t mouse_report = joystick.handleJoystick();
+    // mouse_move(mouse_report.x, mouse_report.y);
 #endif
 }
 

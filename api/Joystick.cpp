@@ -2,6 +2,7 @@
 #include "Arduino.h"
 #include <Mouse.h>
 
+extern bool BTN1;
 Joystick::Joystick()
 {
 }
@@ -31,7 +32,8 @@ int8_t getUnit(int value, int joystick_repeat)
 {
     if (value == 0)
         return 0;
-    double unit = ((value * MOUSEKEY_MAX_SPEED) / JOYSTICK_MOUSE_SENSITIVITY) / JOYSTICK_2_MOUSE_RATIO;
+    // double unit = ((value * MOUSEKEY_MAX_SPEED) / JOYSTICK_MOUSE_SENSITIVITY) / JOYSTICK_2_MOUSE_RATIO;
+    double unit = value / 8;
     for (int i = 0; i < joystick_repeat; i++)
         unit *= JONYSTICK_MOVE_EXPONENTIAL_BASE;
 
@@ -41,11 +43,15 @@ int8_t getUnit(int value, int joystick_repeat)
     return unit;
 }
 
-void Joystick::handleJoystick()
+report_mouse_t Joystick::handleJoystick()
 {
-
-    if (timer_elapsed(last_timer) < (joystick_repeat ? MOUSEKEY_INTERVAL : MOUSEKEY_DELAY))
-        return;
+    // if (timer_elapsed(last_timer) < (joystick_repeat ? MOUSEKEY_INTERVAL : MOUSEKEY_DELAY)) {
+    // mouse_report.x = 0;
+    // mouse_report.y = 0;
+    // joystick_repeat = 0;
+    // // return mouse_report;
+    // return;
+    // }
 
     need_send = 0;
     int x = readAxis(JOYSTICK_X_PIN) * -1;
@@ -66,24 +72,31 @@ void Joystick::handleJoystick()
         joystick_repeat = 0;
     }
 
-    btn_read_state = digitalRead(JOYSTICK_BUTTON_PIN) ^ 1;
-    if (btn_read_state != btn_state) {
-        btn_current_action_time = millis();
-        if (btn_current_action_time - btn_last_action_time > DEBOUNCE) {
-            btn_state = btn_read_state;
-            btn_last_action_time = btn_current_action_time;
-            mouse_report.buttons ^= 1;
-            need_send = true;
-        }
-    }
+    // btn_read_state = digitalRead(JOYSTICK_BUTTON_PIN) ^ 1;
+    // if (btn_read_state != btn_state) {
+    // btn_current_action_time = millis();
+    // if (btn_current_action_time - btn_last_action_time > DEBOUNCE) {
+    // btn_state = btn_read_state;
+    // btn_last_action_time = btn_current_action_time;
+    // mouse_report.buttons ^= 1;
+    // need_send = true;
+    // }
+    // }
 
+    if (BTN1) {
+        mouse_report.buttons |= MOUSE_BTN1;
+    } else {
+        mouse_report.buttons &= ~MOUSE_BTN1;
+    }
     if (need_send) {
         MouseReport report(&mouse_report);
         _host->sendMouse(report);
+        // mouse_move(mouse_report.x, mouse_report.y);
         last_timer = millis();
-        dprintf("joystic send mouse event button->%d, x->%d, y->%d\n",
-            mouse_report.buttons,
-            mouse_report.x,
-            mouse_report.y);
+        // dprintf("joystic send mouse event button->%d, x->%d, y->%d\n",
+        // mouse_report.buttons,
+        // mouse_report.x,
+        // mouse_report.y);
     }
+    return mouse_report;
 }
